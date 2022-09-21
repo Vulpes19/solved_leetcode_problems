@@ -35,6 +35,11 @@ void    addNode(struct ListNode **head, int val)
 	newNode = new ListNode;
 	newNode->val = val;
 	newNode->next = NULL;
+	if (*head == NULL)
+	{
+		*head = initList(*head, val);
+		return ;
+	}
 	while (node)
 	{
 		if (node->next == NULL)
@@ -45,7 +50,7 @@ void    addNode(struct ListNode **head, int val)
 		node = node->next;
 	}
 }
-
+/*
 unsigned long long     getListSize(struct ListNode *head)
 {
    unsigned long long len;
@@ -143,8 +148,56 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2)
 	nbr_res2 = arrToNumber(nbr2, size2);
 	cout << nbr_res2 << endl;
 	nbr_sum = nbr_res1 + nbr_res2;
+	cout << getNbrSize(nbr_sum) << endl;
 	res = getResList(nbr_sum, getNbrSize(nbr_sum));
+	display(res);
+	cout << endl;
 	return (res);
+}
+*/
+
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    int left;
+	int	i = 1;
+    int sum;
+	struct ListNode *res;
+	struct ListNode *head;
+        
+    left = 0;
+    sum = 0;
+	res = NULL;
+    while (l1 && l2)
+    {
+        sum = l1->val + l2->val;
+		cout << "sum: " << sum << endl; 
+        sum += left;
+		cout << "sum+left: " << sum << endl; 
+        if (sum > 9)
+		{
+        	left = sum / 10;
+            sum %= 10;
+		}
+		else
+			left = 0;
+		cout << "left: " << left << endl;
+		cout << "res: " << sum << endl;
+		addNode(&res, sum);
+		if (i)
+		{
+			head = new ListNode;
+			head = res;
+			i = 0;
+		}
+		cout << "val: " << res->val << endl;
+		res = res->next;
+        l1 = l1->next;
+        l2 = l2->next;
+    }
+	if (head == NULL)
+		cout << "its null" << endl;
+	display(head);
+	cout << endl;
+	return (head);
 }
 
 int main(void)
@@ -155,41 +208,14 @@ int main(void)
 	
 
     /* you can edit the list here */
-	list1 = initList(list1, 1);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 0);
-	addNode(&list1, 1);
+	list1 = initList(list1, 2);
+	addNode(&list1, 4);
+	addNode(&list1, 3);
 
 	list2 = initList(list2, 5);
 	addNode(&list2, 6);
 	addNode(&list2, 4);
 
 	display(addTwoNumbers(list1, list2));
+	cout << endl;
 }
