@@ -10,8 +10,10 @@
     
     while (i < nums.size() && j >= 0)
     {
+        int nbr = nums[i];
         nums[i] = nums[i] + nums[i-1];
-        nums[j] = nums[j] + nums[j+1];
+        if (nbr != nums[j])
+            nums[j] = nums[j] + nums[j+1];
         cout << "nums1: " << nums[i] << endl << "nums2: " << nums[j] << endl; 
         if (nums[i] == nums[j])
             return (i);
