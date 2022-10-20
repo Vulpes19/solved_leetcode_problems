@@ -4,12 +4,14 @@
 
 using namespace std;
 
-int ifMax(int left, int right)
+class Solution {
+public:
+    int ifMax(int left, int right)
     {
         return (left > right) ? left : right;
     }
 
-    int divideConquer(vector<int> nums, int lowest, int highest)
+    int divideConquer(vector<int> &nums, int lowest, int highest)
     {
         int leftMax, rightMax, sum, max;
 
@@ -46,3 +48,4 @@ int ifMax(int left, int right)
         int N = nums.size();
         return (divideConquer(nums, 0, N - 1));
     }
+};
