@@ -3,22 +3,36 @@
 
 using namespace std;
 
-void sortArray(vector<int>& nums)
+int getPartition(vector<int>& nums, int start, int end)
 {
-    int tmp;
-    
-    for (int i = 0; i < nums.size(); i++)
+    int pivot, index;
+
+    pivot = nums[end];
+    index = start - 1;
+    for (int i = start; i < end; i++)
     {
-        for (int j = i + 1; j < nums.size(); j++)
+        if (nums[i] < pivot)
         {
-            if (nums[i] > nums[j])
-            {
-                tmp = nums[i];
-                nums[i] = nums[j];
-                nums[j] = tmp;
-            }
+            index++;
+            int tmp = nums[i];
+            nums[i] = nums[index];
+            nums[index] = tmp;
         }
     }
+    int tmp = nums[index + 1];
+    nums[index + 1] = nums[end];
+    nums[end] = tmp;
+
+    return (index + 1);
+}
+
+void sortArray(vector<int>& nums, int start, int end)
+{
+    if (start > end)
+        return ;
+    int p = getPartition(nums, start, end);
+    sortArray(nums, p + 1, end);
+    sortArray(nums, start, p - 1);
 }
 
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
@@ -36,15 +50,5 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
     }
     for (int i = m, j = 0; i < m + n, j < n; i++, j++)
         nums1[i] = nums2[j];
-    sortArray(nums1);
-}
-
-int main()
-{
-    vector<int> nums = {0};
-    vector<int> nums2 = {1};
-
-    merge(nums, 0, nums2, 1);
-    for (int i = 0; i < nums.size(); i++)
-        cout << nums[i] << endl;
+    sortArray(nums1, 0, nums1.size() - 1);
 }
