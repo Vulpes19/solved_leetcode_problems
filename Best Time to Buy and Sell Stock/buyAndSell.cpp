@@ -4,10 +4,17 @@
 using namespace std;
 
 
-
-int main()
+ int maxProfit(vector<int>& prices) 
 {
-    vector<int> v = {7, 1, 5, 3, 6, 4};
-    cout << "max profit: " << endl;
-    cout << maxProfit(v);
+    int profit = 0;
+    int minim = 10e5;
+    
+    for ( int i = 0; i < prices.size(); i++ )
+    {
+        if ( prices[i] < minim)
+            minim = prices[i];
+        else if ( profit < prices[i] - minim )
+            profit = prices[i] - minim;
+    }
+    return (profit);
 }
