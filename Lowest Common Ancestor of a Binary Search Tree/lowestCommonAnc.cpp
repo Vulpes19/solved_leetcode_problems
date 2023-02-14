@@ -7,10 +7,10 @@ using namespace std;
 
 struct TreeNode
 {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 TreeNode    *newNode(int x)
@@ -19,40 +19,48 @@ TreeNode    *newNode(int x)
     return (node);
 }
 
-void dfs( TreeNode *root, vector<pair<int, int> > &depths )
-{
-     int depth = 0;
-     stack<TreeNode *> s;
-
-     s.push(root);
-     while ( !s.empty() )
-     {
-          TreeNode *current = s.top();
-          s.pop();
-          if (current == NULL)     continue;
-          depths.emplace_back(current->val, depth + 1);
-          ++depth;
-          s.push(root->left);
-          s.push(root->right);
-
-     }
-}
-
 TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q)
 {
-     vector<pair<int, int> > depths;
-     TreeNode *head = root;
-     dfs(root, depths);
-     for (unsigned int i = 0; i < depths.size(); i++)
-     {
-          cout << depths[i].first << " " << depths[i].second << endl;
-     }
-     return (head);
+	TreeNode *head = root;
+	TreeNode	*anc = nullptr;
+	bool ifp = false;
+	bool ifq = false;
+	if (root == nullptr)
+		return (nullptr);
+	stack<TreeNode*> st;
+	st.push(root);
+	while (!st.empty())
+	{
+		TreeNode* node = st.top();
+		st.pop();
+		// if ( node->val == 0 )
+		// 	exit(1);
+		// cout << node->val << " "; // process current node
+		if (node->right != nullptr) {
+			st.push(node->right); // push right child onto stack
+		}
+		if ( node->right != nullptr && node->right->val == q->val)
+		{
+			cout << "hello q\n";
+			anc = newNode(node->val);
+			ifq = true;
+		}
+		if (node->left != nullptr)
+			st.push(node->left); // push left child onto stack
+		if ( node->left != nullptr && node->left->val == p->val && anc && anc->val == node->val )
+		{
+			std::cout << "hello p\n";
+			ifp = true;
+		}
+		if ( ifq && ifp )
+			return ( node );
+	}
+	return (nullptr);
 }
 
 int  main( void )
 {
-     TreeNode *root = newNode(6);
+	TreeNode *root = newNode(6);
     root->left = newNode(2);
     root->right = newNode(8);
     root->left->left = newNode(0);
@@ -61,5 +69,7 @@ int  main( void )
     root->right->right = newNode(9);
     root->left->right->left = newNode(3);
     root->left->right->right = newNode(5);
-    lowestCommonAncestor(root, root->left, root->right);
+    TreeNode *ret = lowestCommonAncestor(root, root->left, root->left->right);
+    if (ret != nullptr)
+	cout << ret->val << endl;
 }
