@@ -12,27 +12,27 @@ using namespace std;
  };
 class Solution {
 public:
-    void    check( TreeNode* p, TreeNode* q, bool &test )
+    void    check( TreeNode* p, TreeNode* q, bool &isSame )
     {
         if ( p == nullptr && q == nullptr )
         {
-            test = true;
+            isSame = true;
             return;
         }
         if ( p == nullptr || q == nullptr )
         {
-            test = false;
+            isSame = false;
             return;
         }
         if ( p->val != q->val )
         {
-            test = false;
+            isSame = false;
             return;
         }
-        check(p->left, q->left, test);
-        if ( test == false )
+        check(p->left, q->left, isSame);
+        if ( isSame == false )
             return ;
-        check(p->right, q->right, test);
+        check(p->right, q->right, isSame);
     }
 
     bool isSameTree(TreeNode* p, TreeNode* q) {
